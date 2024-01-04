@@ -3,15 +3,13 @@ import React, { useRef, useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const [showMcVideo, setShowMcVideo] = useState(false);
   const backgroundVideoRef = useRef(null);
   const audioRef = useRef(null);
-  const [pause, setPause] = useState(false);
+  const [pauseMC, setPauseMC] = useState(false)
   const [imgdefault, setImgDefault] = useState(true);
   const [scale, setScale] = useState(1)
   const [width, setWidth] = useState(1920)
   const [height, setHeight] = useState(1080)
-  const [pauseBg, setPauseBg] = useState(false);
   const [videoId, setVideoId] = useState(null);
   const mcVideoRef = useRef(null);
 
@@ -28,42 +26,6 @@ function App() {
       setWidth(parseFloat(idWidth))
     }
   }, []);
-  useEffect(() => {
-    const handleUserInteraction = () => {
-      if (showMcVideo) {
-
-        if (!pause) {
-          mcVideoRef.current.pause();
-          audioRef.current.pause();
-          audioRef.current.volume = 0.1
-        } else if (pause) {
-          mcVideoRef.current.play();
-          audioRef.current.play();
-          audioRef.current.volume = 0.1
-        }
-        setPause(!pause)
-      }
-      if (!showMcVideo) {
-        if (!pauseBg) {
-
-          backgroundVideoRef.current.play();
-          audioRef.current.play();
-          audioRef.current.volume = 0.1
-        } else if (pauseBg) {
-          backgroundVideoRef.current.pause();
-          audioRef.current.pause();
-          audioRef.current.volume = 0.1
-        }
-        setPauseBg(!pauseBg)
-      }
-    };
-    document.addEventListener('click', handleUserInteraction);
-
-
-    return () => {
-      document.removeEventListener('click', handleUserInteraction);
-    };
-  }, [pause, pauseBg, showMcVideo]);
 
   useEffect(() => {
     setScale(width / 1920)
@@ -74,26 +36,30 @@ function App() {
     <div className="App" style={{ position: 'relative', width: 'fit-content', margin: 'auto' }}>
       {imgdefault ? <div onClick={() => {
         setImgDefault(false)
+        backgroundVideoRef.current.play();
       }} className='image-default' style={{ width: width + 'px', height: height + 'px' }}></div> : <></>}
 
       <audio ref={audioRef} src="background_music.mp3" />
       <div className="container" style={{ display: imgdefault ? 'none' : 'block' }}>
+        <button onClick={() => {
+          const mcVideoRefButton = mcVideoRef.current
+          if(!pauseMC){
+
+            mcVideoRefButton.play()
+          }else if(pauseMC) {
+            mcVideoRefButton.pause()
+          }
+          setPauseMC(!pauseMC)
+        }} style={{position: 'absolute'}}>Click Video</button>
         <video
           className="background"
           preload="auto"
-          autoPlay
-          onTimeUpdate={() => {
-            const currentTime = backgroundVideoRef.current.currentTime;
-            if (currentTime >= 6 && !showMcVideo) {
-              setShowMcVideo(true);
-            }
-          }}
           ref={backgroundVideoRef}
           width={width}
           src="background.mp4"
         ></video>
 
-        {showMcVideo && (
+        {true && (
           <div style={{ borderRadius: '10', overflow: 'hidden', width: 600 * scale + 'px', height: 600 * scale + 'px' }}>
             <video
               className="mc"
