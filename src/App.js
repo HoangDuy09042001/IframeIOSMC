@@ -64,7 +64,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (currentTime === 6 && !showMcVideo) {
+    if (currentTime === 7 && !showMcVideo) {
       setShowMcVideo(true);
       
     }
