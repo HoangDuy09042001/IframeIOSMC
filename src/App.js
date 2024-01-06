@@ -72,6 +72,7 @@ function App() {
 
   return (
     <div className="App" style={{ position: 'relative', width: 'fit-content', margin: 'auto' }}>
+      <div>Hello</div>
       {imgdefault ? <div onClick={() => {
         setImgDefault(false)
       }} className='image-default' style={{ width: width + 'px', height: height + 'px' }}></div> : <></>}
@@ -102,6 +103,7 @@ function App() {
               style={{ top: scale * (560 - 600 / 2) + 'px', left: scale * (1350 - 600 / 2) + 'px' }}
               ref={mcVideoRef}
               src={videoId ? `https://work247.vn/dowload/video_new/new_${videoId}/video_${videoId}.mp4` : 'mc.mp4'}
+              muted
             ></video>
           </div>
         )}
@@ -113,3 +115,6 @@ function App() {
 }
 
 export default App;
+
+
+
