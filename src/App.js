@@ -13,7 +13,7 @@ function App() {
   const [currentTime, setCurrentTime] = useState(0);
   const mcVideoRef = useRef(null);
   const [introGif, setIntroGif] = useState(true)
-
+  
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const idFromUrl = urlParams.get('videoId');
@@ -26,9 +26,13 @@ function App() {
     if (idWidth) {
       setWidth(parseFloat(idWidth))
     }
+    audioRef.current.volume = 0.1
+    audioRef.current.play();
   }, []);
   useEffect(() => {
     const handleUserInteraction = () => {
+      audioRef.current.play();
+      audioRef.current.volume = 0.1
       if (showMcVideo) {
 
         if (!pause) {
