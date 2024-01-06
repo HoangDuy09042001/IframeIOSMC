@@ -76,7 +76,7 @@ function App() {
       }} className='image-default' style={{ width: width + 'px', height: height + 'px' }}></div> : <></>}
       <audio ref={audioRef} src="background_music.mp3" />
       <div className="container" style={{ display: imgdefault ? 'none' : 'block' }}>
-        <div className="background getaway-car"></div>
+        <div className="background getaway-car" style={{ width: width + 'px', height: height + 'px' }}></div>
 
         {showMcVideo && (
           <div style={{ borderRadius: '10', overflow: 'hidden', width: 600 * scale + 'px', height: 600 * scale + 'px' }}>
