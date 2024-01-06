@@ -24,3 +24,10 @@
   left: 500px;
   z-index: 1;
 }
+.getaway-car {
+  background-image: url('../public/background.gif');
+  width: 1920px; 
+  height: 1080px;
+  background-size: cover;
+
+}

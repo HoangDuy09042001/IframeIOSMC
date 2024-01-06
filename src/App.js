@@ -4,15 +4,14 @@ import './App.css';
 
 function App() {
   const [showMcVideo, setShowMcVideo] = useState(false);
-  const backgroundVideoRef = useRef(null);
   const audioRef = useRef(null);
   const [pause, setPause] = useState(false);
   const [imgdefault, setImgDefault] = useState(true);
   const [scale, setScale] = useState(1)
   const [width, setWidth] = useState(1920)
   const [height, setHeight] = useState(1080)
-  const [pauseBg, setPauseBg] = useState(false);
   const [videoId, setVideoId] = useState(null);
+  const [currentTime, setCurrentTime] = useState(0);
   const mcVideoRef = useRef(null);
 
 
@@ -43,19 +42,6 @@ function App() {
         }
         setPause(!pause)
       }
-      if (!showMcVideo) {
-        if (!pauseBg) {
-
-          backgroundVideoRef.current.play();
-          audioRef.current.play();
-          audioRef.current.volume = 0.1
-        } else if (pauseBg) {
-          backgroundVideoRef.current.pause();
-          audioRef.current.pause();
-          audioRef.current.volume = 0.1
-        }
-        setPauseBg(!pauseBg)
-      }
     };
     document.addEventListener('click', handleUserInteraction);
 
@@ -63,12 +49,24 @@ function App() {
     return () => {
       document.removeEventListener('click', handleUserInteraction);
     };
-  }, [pause, pauseBg, showMcVideo]);
+  }, [pause,  showMcVideo]);
 
   useEffect(() => {
     setScale(width / 1920)
     setHeight(width / 1920 * 1080)
   }, [imgdefault, width]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime((prevTime) => prevTime + 1);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  // Kiểm tra điều kiện để hiển thị video
+  if (currentTime >= 6 && !showMcVideo) {
+    setShowMcVideo(true);
+  }
 
   return (
     <div className="App" style={{ position: 'relative', width: 'fit-content', margin: 'auto' }}>
@@ -78,20 +76,7 @@ function App() {
       }} className='image-default' style={{ width: width + 'px', height: height + 'px' }}></div> : <></>}
       <audio ref={audioRef} src="background_music.mp3" />
       <div className="container" style={{ display: imgdefault ? 'none' : 'block' }}>
-        <video
-          className="background"
-          preload="auto"
-          autoPlay
-          onTimeUpdate={() => {
-            const currentTime = backgroundVideoRef.current.currentTime;
-            if (currentTime >= 6 && !showMcVideo) {
-              setShowMcVideo(true);
-            }
-          }}
-          ref={backgroundVideoRef}
-          width={width}
-          src="background.mp4"
-        ></video>
+        <div className="background getaway-car"></div>
 
         {showMcVideo && (
           <div style={{ borderRadius: '10', overflow: 'hidden', width: 600 * scale + 'px', height: 600 * scale + 'px' }}>
