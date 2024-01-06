@@ -76,7 +76,6 @@ function App() {
       {imgdefault ? <div onClick={() => {
         setImgDefault(false)
       }} className='image-default' style={{ width: width + 'px', height: height + 'px' }}></div> : <></>}
-      <div>Hello</div>
       <audio ref={audioRef} src="background_music.mp3" />
       <div className="container" style={{ display: imgdefault ? 'none' : 'block' }}>
         <video
