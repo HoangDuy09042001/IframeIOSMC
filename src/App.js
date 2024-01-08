@@ -29,9 +29,18 @@ function App() {
     audioRef.current.volume = 0.1
   }, []);
   useEffect(() => {
-    const handleUserInteraction = () => {
+    const handleIntro = ()=>{
       audioRef.current.play();
       audioRef.current.volume = 0.1
+    }
+    const handleClickOutsideVideo = (event) => {
+      // Check if the clicked element is not within mcVideoRef.current
+      if (mcVideoRef.current && !mcVideoRef.current.contains(event.target)) {
+        handleIntro();
+      }
+    };
+    const handleUserInteraction = () => {
+
       if (showMcVideo) {
 
         if (!pause) {
@@ -46,11 +55,14 @@ function App() {
         setPause(!pause)
       }
     };
-    document.addEventListener('click', handleUserInteraction);
+    const mcVideoRefButton = mcVideoRef.current
+    mcVideoRefButton.addEventListener('click', handleUserInteraction);
+    document.addEventListener('click', handleClickOutsideVideo);
 
 
     return () => {
-      document.removeEventListener('click', handleUserInteraction);
+      mcVideoRefButton.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('click', handleClickOutsideVideo);
     };
   }, [pause, showMcVideo]);
 
