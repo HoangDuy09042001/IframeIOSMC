@@ -27,7 +27,6 @@ function App() {
       setWidth(parseFloat(idWidth))
     }
     audioRef.current.volume = 0.1
-    audioRef.current.play();
   }, []);
   useEffect(() => {
     const handleUserInteraction = () => {
@@ -102,6 +101,5 @@ function App() {
 }
 
 export default App;
-
 
 
